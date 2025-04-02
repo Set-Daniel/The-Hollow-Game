@@ -81,4 +81,5 @@ Module ElPrincipio
     Private Function EsPalindromo(palabra As String) As Boolean
         Throw New NotImplementedException()
     End Function
+
 End Module
