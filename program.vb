@@ -1,15 +1,14 @@
-Imports System
-Imports System.Reflection.Metadata.Ecma335
+ï»¿Imports System
 
-Module ElPrincipio
-    Sub Main(intentos As Integer)
+Module TheHollow
+    Sub Main()
         Dim nombres(9) As String
         Dim seleccionados(2) As String
-        Dim intentos As Integer = 0
         Dim hombres As Integer = 0
         Dim mujeres As Integer = 0
+        Dim intentos As Integer = 0
 
-        ' Inicialización de los nombres que posteriormente el algorimo pedirá que el usuario seleccion al azar.
+        ' InicializaciÃ³n de nombres
         nombres(0) = "Luis"
         nombres(1) = "Lucas"
         nombres(2) = "Zack"
@@ -24,20 +23,16 @@ Module ElPrincipio
         Console.WriteLine("Encuentra los nombres de los protagonistas (2 hombres y 1 mujer)")
 
         While intentos < 5 And (hombres < 2 Or mujeres < 1)
-            Console.Write("Selecciona un número del 0 al 9: ")
+            Console.Write("Selecciona un nÃºmero del 0 al 9: ")
             Dim entrada As String = Console.ReadLine()
             Dim eleccion As Integer
 
-            ' Validación de entrada numérica
             If Not Integer.TryParse(entrada, eleccion) OrElse eleccion < 0 OrElse eleccion > 9 Then
-                Console.WriteLine("Número inválido, intenta nuevamente.")
+                Console.WriteLine("NÃºmero invÃ¡lido, intenta nuevamente.")
             ElseIf seleccionados.Contains(nombres(eleccion)) Then
                 Console.WriteLine("Este nombre ya fue seleccionado, elige otro.")
             Else
-                ' Asignar nombre seleccionado
                 seleccionados(hombres + mujeres) = nombres(eleccion)
-
-                ' Contar género
                 If eleccion < 3 Then
                     hombres += 1
                 ElseIf eleccion < 5 Then
@@ -48,7 +43,6 @@ Module ElPrincipio
             intentos += 1
         End While
 
-        ' Resultado final
         If hombres = 2 And mujeres = 1 Then
             Console.WriteLine("Has seleccionado correctamente a los protagonistas:")
             For Each nombre In seleccionados
@@ -58,28 +52,37 @@ Module ElPrincipio
             Console.WriteLine("THE HOLLOW CANNOT BE INITIALIZED, GAME OVER")
         End If
 
-        Console.ReadLine()
-
-        While intentos < 5
+        ' Parte 2 - PalÃ­ndromo
+        Dim intentosPalindromo As Integer = 3
+        While intentosPalindromo > 0
             Console.Write("Ingrese una palabra: ")
             Dim palabra As String = Console.ReadLine()
 
             If EsPalindromo(palabra) Then
-                Console.WriteLine("¡La palabra es palíndroma!")
+                Console.WriteLine("Â¡La palabra es palÃ­ndroma!")
                 Exit While
+            Else
+                intentosPalindromo -= 1
+                Console.WriteLine($"No es una palabra palÃ­ndroma. Intentos restantes: {intentosPalindromo}")
             End If
-
-            intentos -= 1
-            Console.WriteLine($"No es una palabra palíndroma. Intentos restantes: {intentos}")
         End While
 
-        If intentos = 0 Then Console.WriteLine("THE HOLLOW CANNOT BE INITIALIZED, GAME OVER")
-        Console.ReadKey()
+        If intentosPalindromo = 0 Then
+            Console.WriteLine("THE HOLLOW CANNOT BE INITIALIZED, GAME OVER")
+        End If
 
+        Console.ReadKey()
     End Sub
 
-    Private Function EsPalindromo(palabra As String) As Boolean
-        Throw New NotImplementedException()
-    End Function
+    Function EsPalindromo(texto As String) As Boolean
+        If String.IsNullOrWhiteSpace(texto) Then Return False
 
+        Dim limpio = texto.ToLower().Replace(" ", "")
+        Dim invertido = New String(limpio.Reverse().ToArray())
+
+        Return limpio = invertido
+    End Function
 End Module
+
+
+
